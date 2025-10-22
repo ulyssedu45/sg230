@@ -1,0 +1,44 @@
+# SPDX-License-Identifier: GPL-2.0-only
+
+if BOARD_SOPHOS_SG230_REV2
+
+config BOARD_SPECIFIC_OPTIONS
+	def_bool y
+	select BOARD_ROMSIZE_KB_16384
+	select DRIVERS_USB_ACPI
+	select HAVE_ACPI_RESUME
+	select HAVE_ACPI_TABLES
+	select INTEL_GMA_HAVE_VBT
+	select MAINBOARD_HAS_LIBGFXINIT
+	select SKYLAKE_SOC_PCH_H
+	select SOC_INTEL_KABYLAKE
+	select USE_LEGACY_8254_TIMER
+	select SUPERIO_NUVOTON_NCT6779D
+
+config MAINBOARD_DIR
+	default "sophos/sg230r2"
+
+config MAINBOARD_PART_NUMBER
+	default "SG230 Rev 2"
+
+config DIMM_MAX
+	int
+	default 2
+
+config DIMM_SPD_SIZE
+	int
+	default 256
+
+config ONBOARD_BEEP
+	bool
+	default y
+
+config POST_IO
+	bool
+	default y
+
+config MAINBOARD_POWER_LIMITS_OVERRIDE
+	bool
+	default y
+
+endif # BOARD_SOPHOS_SG230_REV2

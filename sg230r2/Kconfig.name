@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: GPL-2.0-only
+
+config BOARD_SOPHOS_SG230_REV2
+	bool "SG230 Rev 2"

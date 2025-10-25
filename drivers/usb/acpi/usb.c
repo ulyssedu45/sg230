@@ -69,7 +69,7 @@ static void usb_acpi_fill_ssdt_generator(const struct device *dev)
 	if (config->use_custom_pld)
 		pld = config->pld;
 	else if (config->group.token)
-		acpigen_write_pld(&config->group, &pld);
+		acpi_pld_to_buffer(&config->group, &pld);
 	else
 		acpi_pld_fill_usb(&pld, config->type, &config->group);
 

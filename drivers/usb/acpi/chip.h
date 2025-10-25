@@ -7,7 +7,7 @@
 
 struct drivers_usb_acpi_config {
 	const char *desc;
-	
+
 	/*
 	 * Physical ports that are user visible
 	 *

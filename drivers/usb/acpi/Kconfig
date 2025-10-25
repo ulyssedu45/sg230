@@ -1,0 +1,10 @@
+## SPDX-License-Identifier: GPL-2.0-only
+
+config DRIVERS_USB_ACPI
+	bool "USB ACPI Device Support"
+	depends on HAVE_ACPI_TABLES
+	help
+	  This driver provides ACPI support for USB devices, including
+	  _UPC (USB Port Capabilities) and _PLD (Physical Location of Device)
+	  generation for USB ports. Required for proper USB device enumeration
+	  in ACPI-aware operating systems.

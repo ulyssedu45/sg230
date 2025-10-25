@@ -1,0 +1,73 @@
+## @file
+#  Package declaration file for Sophos SG230 Rev 2 Platform
+#
+#  Copyright (c) 2024, Sophos SG230 Rev 2 Community
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = SG230R2Pkg
+  PACKAGE_GUID                   = 8B2E1E1A-9C7E-4F1B-B8E4-5A2D3C4E5F6A
+  PACKAGE_VERSION                = 0.1
+
+[Includes]
+  Include
+
+[LibraryClasses]
+
+[Guids]
+  gSG230R2PkgTokenSpaceGuid = { 0x9C7E1E1A, 0x8B2E, 0x4F1B, { 0xB8, 0xE4, 0x5A, 0x2D, 0x3C, 0x4E, 0x5F, 0x6A }}
+
+[Protocols]
+
+[Ppis]
+
+[PcdsFixedAtBuild]
+  ## Flash area base address (mapped in memory)
+  # @Prompt Flash area base address
+  gSG230R2PkgTokenSpaceGuid.PcdFlashAreaBaseAddress|0xFFA00000|UINT32|0x10000001
+  
+  ## Flash area size (6MB BIOS region)
+  # @Prompt Flash area size
+  gSG230R2PkgTokenSpaceGuid.PcdFlashAreaSize|0x00600000|UINT32|0x10000002
+
+  ## Recovery Firmware Volume
+  # @Prompt FV Recovery base address
+  gSG230R2PkgTokenSpaceGuid.PcdFlashFvRecoveryBase|0xFFA00000|UINT32|0x20000001
+  
+  # @Prompt FV Recovery size
+  gSG230R2PkgTokenSpaceGuid.PcdFlashFvRecoverySize|0x00100000|UINT32|0x20000002
+
+  ## Main Firmware Volume
+  # @Prompt FV Main base address
+  gSG230R2PkgTokenSpaceGuid.PcdFlashFvMainBase|0xFFB00000|UINT32|0x20000003
+  
+  # @Prompt FV Main size
+  gSG230R2PkgTokenSpaceGuid.PcdFlashFvMainSize|0x00400000|UINT32|0x20000004
+
+  ## Microcode Firmware Volume
+  # @Prompt FV Microcode base address
+  gSG230R2PkgTokenSpaceGuid.PcdFlashMicrocodeFvBase|0xFFF40000|UINT32|0x20000005
+  
+  # @Prompt FV Microcode size
+  gSG230R2PkgTokenSpaceGuid.PcdFlashMicrocodeFvSize|0x000C0000|UINT32|0x20000006
+
+  ## NV Storage
+  # @Prompt Flash NV Storage Variable base
+  gSG230R2PkgTokenSpaceGuid.PcdFlashNvStorageVariableBase|0xFFF00000|UINT32|0x30000001
+  
+  # @Prompt Flash NV Storage Variable size
+  gSG230R2PkgTokenSpaceGuid.PcdFlashNvStorageVariableSize|0x0002E000|UINT32|0x30000002
+  
+  # @Prompt Flash NV Storage FTW Working base
+  gSG230R2PkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingBase|0xFFF2E000|UINT32|0x30000003
+  
+  # @Prompt Flash NV Storage FTW Working size
+  gSG230R2PkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingSize|0x00002000|UINT32|0x30000004
+  
+  # @Prompt Flash NV Storage FTW Spare base
+  gSG230R2PkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareBase|0xFFF30000|UINT32|0x30000005
+  
+  # @Prompt Flash NV Storage FTW Spare size
+  gSG230R2PkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareSize|0x00010000|UINT32|0x30000006

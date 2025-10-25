@@ -1,0 +1,19 @@
+## @file
+#  ACPI Table support
+#
+#  Copyright (c) 2024, Sophos SG230 Rev 2 Community
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = AcpiTables
+  FILE_GUID                      = 7E374E25-8E01-4FEE-87F2-390C23C606CD
+  MODULE_TYPE                    = USER_DEFINED
+  VERSION_STRING                 = 1.0
+
+[Sources]
+  Dsdt.asl
+
+[Packages]
+  MdePkg/MdePkg.dec

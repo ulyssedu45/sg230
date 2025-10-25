@@ -1,0 +1,368 @@
+## @file
+#  Flash Layout Definition for Sophos SG230 Rev 2
+#
+#  16MB Flash Layout:
+#  - Flash Descriptor: 0x00000000 - 0x00000FFF (4KB)
+#  - Intel ME:          0x00001000 - 0x009FFFFF (~10MB)
+#  - BIOS Region:       0x00A00000 - 0x00FFFFFF (~6MB)
+#
+#  Copyright (c) 2024, Sophos SG230 Rev 2 Community
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+################################################################################
+#
+# FD Section - The [FD] Section is made up of the definition statements and a
+# description of what goes into the Flash Device Image.
+#
+################################################################################
+
+[FD.SG230R2]
+BaseAddress   = 0xFFA00000|gSG230R2PkgTokenSpaceGuid.PcdFlashAreaBaseAddress
+Size          = 0x00600000|gSG230R2PkgTokenSpaceGuid.PcdFlashAreaSize
+ErasePolarity = 1
+
+# Flash regions defined by the platform
+# The BIOS region starts at 0x00A00000 in the 16MB flash
+# In memory map, this corresponds to 0xFFA00000
+
+################################################################################
+# Region: FV Recovery (SEC + PEI)
+################################################################################
+0x00000000|0x00100000
+gSG230R2PkgTokenSpaceGuid.PcdFlashFvRecoveryBase|gSG230R2PkgTokenSpaceGuid.PcdFlashFvRecoverySize
+FV = FVRECOVERY
+
+################################################################################
+# Region: FV Main (DXE)
+################################################################################
+0x00100000|0x00400000
+gSG230R2PkgTokenSpaceGuid.PcdFlashFvMainBase|gSG230R2PkgTokenSpaceGuid.PcdFlashFvMainSize
+FV = FVMAIN
+
+################################################################################
+# Region: NV Storage
+################################################################################
+0x00500000|0x00040000
+gSG230R2PkgTokenSpaceGuid.PcdFlashNvStorageVariableBase|gSG230R2PkgTokenSpaceGuid.PcdFlashNvStorageVariableSize
+
+# Variable Store
+0x00500000|0x0002E000
+gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase|gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableSize
+
+# FTW Working Block
+0x0052E000|0x00002000
+gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingBase|gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingSize
+
+# FTW Spare Block
+0x00530000|0x00010000
+gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareBase|gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareSize
+
+################################################################################
+# Region: Microcode
+################################################################################
+0x00540000|0x000C0000
+gSG230R2PkgTokenSpaceGuid.PcdFlashMicrocodeFvBase|gSG230R2PkgTokenSpaceGuid.PcdFlashMicrocodeFvSize
+FV = FVMICROCODE
+
+################################################################################
+#
+# FV Section - Firmware Volumes
+#
+################################################################################
+
+################################################################################
+# FVRECOVERY - Recovery Firmware Volume (SEC + PEI)
+################################################################################
+[FV.FVRECOVERY]
+FvAlignment        = 16
+ERASE_POLARITY     = 1
+MEMORY_MAPPED      = TRUE
+STICKY_WRITE       = TRUE
+LOCK_CAP           = TRUE
+LOCK_STATUS        = TRUE
+WRITE_DISABLED_CAP = TRUE
+WRITE_ENABLED_CAP  = TRUE
+WRITE_STATUS       = TRUE
+WRITE_LOCK_CAP     = TRUE
+WRITE_LOCK_STATUS  = TRUE
+READ_DISABLED_CAP  = TRUE
+READ_ENABLED_CAP   = TRUE
+READ_STATUS        = TRUE
+READ_LOCK_CAP      = TRUE
+READ_LOCK_STATUS   = TRUE
+
+FvNameGuid         = 8C3D856A-9BE6-468E-850A-24F7A8D38E08
+
+#
+# SEC Core
+#
+INF  UefiCpuPkg/SecCore/SecCore.inf
+
+#
+# PEI Core
+#
+INF  MdeModulePkg/Core/Pei/PeiMain.inf
+
+#
+# PEI Modules
+#
+INF  MdeModulePkg/Universal/PCD/Pei/Pcd.inf
+INF  MdeModulePkg/Universal/ReportStatusCodeRouter/Pei/ReportStatusCodeRouterPei.inf
+INF  MdeModulePkg/Universal/StatusCodeHandler/Pei/StatusCodeHandlerPei.inf
+
+#
+# FSP Integration
+#
+INF  IntelFsp2WrapperPkg/FspmWrapperPeim/FspmWrapperPeim.inf
+INF  IntelFsp2WrapperPkg/FspsWrapperPeim/FspsWrapperPeim.inf
+
+#
+# DXE IPL
+#
+INF  MdeModulePkg/Core/DxeIplPeim/DxeIpl.inf
+
+################################################################################
+# FVMAIN - Main Firmware Volume (DXE)
+################################################################################
+[FV.FVMAIN]
+FvAlignment        = 16
+ERASE_POLARITY     = 1
+MEMORY_MAPPED      = TRUE
+STICKY_WRITE       = TRUE
+LOCK_CAP           = TRUE
+LOCK_STATUS        = TRUE
+WRITE_DISABLED_CAP = TRUE
+WRITE_ENABLED_CAP  = TRUE
+WRITE_STATUS       = TRUE
+WRITE_LOCK_CAP     = TRUE
+WRITE_LOCK_STATUS  = TRUE
+READ_DISABLED_CAP  = TRUE
+READ_ENABLED_CAP   = TRUE
+READ_STATUS        = TRUE
+READ_LOCK_CAP      = TRUE
+READ_LOCK_STATUS   = TRUE
+
+FvNameGuid         = D6A1CD70-4B33-4994-A6EA-375F2CCC5437
+
+APRIORI DXE {
+  INF  MdeModulePkg/Universal/PCD/Dxe/Pcd.inf
+  INF  MdeModulePkg/Universal/ReportStatusCodeRouter/RuntimeDxe/ReportStatusCodeRouterRuntimeDxe.inf
+  INF  MdeModulePkg/Universal/StatusCodeHandler/RuntimeDxe/StatusCodeHandlerRuntimeDxe.inf
+}
+
+#
+# DXE Core
+#
+INF  MdeModulePkg/Core/Dxe/DxeMain.inf
+
+#
+# Components
+#
+INF  MdeModulePkg/Universal/PCD/Dxe/Pcd.inf
+INF  MdeModulePkg/Universal/ReportStatusCodeRouter/RuntimeDxe/ReportStatusCodeRouterRuntimeDxe.inf
+INF  MdeModulePkg/Universal/StatusCodeHandler/RuntimeDxe/StatusCodeHandlerRuntimeDxe.inf
+INF  MdeModulePkg/Universal/Metronome/Metronome.inf
+INF  UefiCpuPkg/CpuIo2Dxe/CpuIo2Dxe.inf
+INF  MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
+INF  MdeModulePkg/Core/RuntimeDxe/RuntimeDxe.inf
+INF  MdeModulePkg/Universal/MonotonicCounterRuntimeDxe/MonotonicCounterRuntimeDxe.inf
+INF  MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe.inf
+INF  MdeModulePkg/Universal/CapsuleRuntimeDxe/CapsuleRuntimeDxe.inf
+INF  MdeModulePkg/Universal/SecurityStubDxe/SecurityStubDxe.inf
+INF  UefiCpuPkg/CpuDxe/CpuDxe.inf
+INF  MdeModulePkg/Universal/BdsDxe/BdsDxe.inf
+INF  MdeModulePkg/Universal/DevicePathDxe/DevicePathDxe.inf
+INF  MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
+INF  MdeModulePkg/Universal/DisplayEngineDxe/DisplayEngineDxe.inf
+INF  MdeModulePkg/Universal/SetupBrowserDxe/SetupBrowserDxe.inf
+INF  MdeModulePkg/Universal/DriverHealthManagerDxe/DriverHealthManagerDxe.inf
+INF  MdeModulePkg/Universal/HiiDatabaseDxe/HiiDatabaseDxe.inf
+
+#
+# ACPI
+#
+INF  MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
+INF  MdeModulePkg/Universal/Acpi/AcpiPlatformDxe/AcpiPlatformDxe.inf
+INF  MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
+
+#
+# PCI
+#
+INF  MdeModulePkg/Bus/Pci/PciBusDxe/PciBusDxe.inf
+INF  MdeModulePkg/Bus/Pci/PciHostBridgeDxe/PciHostBridgeDxe.inf
+
+#
+# Console
+#
+INF  MdeModulePkg/Universal/Console/ConPlatformDxe/ConPlatformDxe.inf
+INF  MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitterDxe.inf
+INF  MdeModulePkg/Universal/Console/GraphicsConsoleDxe/GraphicsConsoleDxe.inf
+INF  MdeModulePkg/Universal/Console/TerminalDxe/TerminalDxe.inf
+INF  MdeModulePkg/Universal/SerialDxe/SerialDxe.inf
+
+#
+# Disk
+#
+INF  MdeModulePkg/Universal/Disk/DiskIoDxe/DiskIoDxe.inf
+INF  MdeModulePkg/Universal/Disk/PartitionDxe/PartitionDxe.inf
+INF  MdeModulePkg/Universal/Disk/UnicodeCollation/EnglishDxe/EnglishDxe.inf
+
+#
+# SATA/AHCI
+#
+INF  MdeModulePkg/Bus/Ata/AtaAtapiPassThru/AtaAtapiPassThru.inf
+INF  MdeModulePkg/Bus/Ata/AtaBusDxe/AtaBusDxe.inf
+INF  MdeModulePkg/Bus/Pci/SataControllerDxe/SataControllerDxe.inf
+
+#
+# USB
+#
+INF  MdeModulePkg/Bus/Pci/UhciDxe/UhciDxe.inf
+INF  MdeModulePkg/Bus/Pci/EhciDxe/EhciDxe.inf
+INF  MdeModulePkg/Bus/Pci/XhciDxe/XhciDxe.inf
+INF  MdeModulePkg/Bus/Usb/UsbBusDxe/UsbBusDxe.inf
+INF  MdeModulePkg/Bus/Usb/UsbKbDxe/UsbKbDxe.inf
+INF  MdeModulePkg/Bus/Usb/UsbMassStorageDxe/UsbMassStorageDxe.inf
+
+#
+# Network
+#
+INF  NetworkPkg/DpcDxe/DpcDxe.inf
+INF  NetworkPkg/SnpDxe/SnpDxe.inf
+INF  NetworkPkg/MnpDxe/MnpDxe.inf
+INF  NetworkPkg/ArpDxe/ArpDxe.inf
+INF  NetworkPkg/Dhcp4Dxe/Dhcp4Dxe.inf
+INF  NetworkPkg/Ip4Dxe/Ip4Dxe.inf
+INF  NetworkPkg/Udp4Dxe/Udp4Dxe.inf
+INF  NetworkPkg/Mtftp4Dxe/Mtftp4Dxe.inf
+INF  NetworkPkg/TcpDxe/TcpDxe.inf
+INF  NetworkPkg/UefiPxeBcDxe/UefiPxeBcDxe.inf
+INF  NetworkPkg/Ip6Dxe/Ip6Dxe.inf
+INF  NetworkPkg/Dhcp6Dxe/Dhcp6Dxe.inf
+INF  NetworkPkg/Udp6Dxe/Udp6Dxe.inf
+INF  NetworkPkg/Mtftp6Dxe/Mtftp6Dxe.inf
+INF  NetworkPkg/DnsDxe/DnsDxe.inf
+INF  NetworkPkg/HttpDxe/HttpDxe.inf
+INF  NetworkPkg/HttpUtilitiesDxe/HttpUtilitiesDxe.inf
+INF  NetworkPkg/HttpBootDxe/HttpBootDxe.inf
+INF  NetworkPkg/TlsDxe/TlsDxe.inf
+INF  NetworkPkg/TlsAuthConfigDxe/TlsAuthConfigDxe.inf
+
+#
+# SCSI
+#
+INF  MdeModulePkg/Bus/Scsi/ScsiBusDxe/ScsiBusDxe.inf
+INF  MdeModulePkg/Bus/Scsi/ScsiDiskDxe/ScsiDiskDxe.inf
+
+#
+# Variable Services
+#
+INF  MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteDxe.inf
+INF  MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf
+
+#
+# Boot Manager
+#
+INF  MdeModulePkg/Application/UiApp/UiApp.inf
+
+#
+# Shell
+#
+INF  ShellPkg/Application/Shell/Shell.inf
+
+################################################################################
+# FVMICROCODE - CPU Microcode
+################################################################################
+[FV.FVMICROCODE]
+FvAlignment        = 16
+ERASE_POLARITY     = 1
+MEMORY_MAPPED      = TRUE
+STICKY_WRITE       = TRUE
+LOCK_CAP           = TRUE
+LOCK_STATUS        = TRUE
+WRITE_DISABLED_CAP = TRUE
+WRITE_ENABLED_CAP  = TRUE
+WRITE_STATUS       = TRUE
+WRITE_LOCK_CAP     = TRUE
+WRITE_LOCK_STATUS  = TRUE
+READ_DISABLED_CAP  = TRUE
+READ_ENABLED_CAP   = TRUE
+READ_STATUS        = TRUE
+READ_LOCK_CAP      = TRUE
+READ_LOCK_STATUS   = TRUE
+
+FvNameGuid         = 17088572-377F-44EF-8F4E-B09FFF46A070
+
+# Microcode files should be placed here
+# File format: RAW files with CPU microcode updates
+
+################################################################################
+#
+# Rules Section - Defines the default module build rules
+#
+################################################################################
+
+[Rule.Common.SEC]
+  FILE SEC = $(NAMED_GUID) RELOCS_STRIPPED {
+    TE  TE    Align = Auto                    $(INF_OUTPUT)/$(MODULE_NAME).efi
+  }
+
+[Rule.Common.PEI_CORE]
+  FILE PEI_CORE = $(NAMED_GUID) {
+    TE       TE                               $(INF_OUTPUT)/$(MODULE_NAME).efi
+    UI       STRING="$(MODULE_NAME)" Optional
+    VERSION  STRING="$(INF_VERSION)" Optional BUILD_NUM=$(BUILD_NUMBER)
+  }
+
+[Rule.Common.PEIM]
+  FILE PEIM = $(NAMED_GUID) {
+    PEI_DEPEX PEI_DEPEX Optional               $(INF_OUTPUT)/$(MODULE_NAME).depex
+    TE        TE                               $(INF_OUTPUT)/$(MODULE_NAME).efi
+    UI        STRING="$(MODULE_NAME)" Optional
+    VERSION   STRING="$(INF_VERSION)" Optional BUILD_NUM=$(BUILD_NUMBER)
+  }
+
+[Rule.Common.DXE_CORE]
+  FILE DXE_CORE = $(NAMED_GUID) {
+    PE32     PE32                              $(INF_OUTPUT)/$(MODULE_NAME).efi
+    UI       STRING="$(MODULE_NAME)" Optional
+    VERSION  STRING="$(INF_VERSION)" Optional BUILD_NUM=$(BUILD_NUMBER)
+  }
+
+[Rule.Common.UEFI_DRIVER]
+  FILE DRIVER = $(NAMED_GUID) {
+    DXE_DEPEX    DXE_DEPEX Optional            $(INF_OUTPUT)/$(MODULE_NAME).depex
+    PE32         PE32                          $(INF_OUTPUT)/$(MODULE_NAME).efi
+    UI           STRING="$(MODULE_NAME)" Optional
+    VERSION      STRING="$(INF_VERSION)" Optional BUILD_NUM=$(BUILD_NUMBER)
+  }
+
+[Rule.Common.DXE_DRIVER]
+  FILE DRIVER = $(NAMED_GUID) {
+    DXE_DEPEX    DXE_DEPEX Optional            $(INF_OUTPUT)/$(MODULE_NAME).depex
+    PE32         PE32                          $(INF_OUTPUT)/$(MODULE_NAME).efi
+    UI           STRING="$(MODULE_NAME)" Optional
+    VERSION      STRING="$(INF_VERSION)" Optional BUILD_NUM=$(BUILD_NUMBER)
+  }
+
+[Rule.Common.DXE_RUNTIME_DRIVER]
+  FILE DRIVER = $(NAMED_GUID) {
+    DXE_DEPEX    DXE_DEPEX Optional            $(INF_OUTPUT)/$(MODULE_NAME).depex
+    PE32         PE32                          $(INF_OUTPUT)/$(MODULE_NAME).efi
+    UI           STRING="$(MODULE_NAME)" Optional
+    VERSION      STRING="$(INF_VERSION)" Optional BUILD_NUM=$(BUILD_NUMBER)
+  }
+
+[Rule.Common.UEFI_APPLICATION]
+  FILE APPLICATION = $(NAMED_GUID) {
+    PE32     PE32                              $(INF_OUTPUT)/$(MODULE_NAME).efi
+    UI       STRING="$(MODULE_NAME)" Optional
+    VERSION  STRING="$(INF_VERSION)" Optional BUILD_NUM=$(BUILD_NUMBER)
+  }
+
+[Rule.Common.USER_DEFINED.ACPITABLE]
+  FILE FREEFORM = $(NAMED_GUID) {
+    RAW ACPI               |.acpi
+    RAW ASL                |.aml
+  }

@@ -7,7 +7,6 @@
 #include <device/pci_ops.h>
 #include <soc/pci_devs.h>
 #include "gpio.h"
-#include "beep.h"
 
 void mainboard_silicon_init_params(FSP_SIL_UPD *params)
 {

@@ -8,6 +8,7 @@ config BOARD_SPECIFIC_OPTIONS
 	select DRIVERS_USB_ACPI
 	select HAVE_ACPI_RESUME
 	select HAVE_ACPI_TABLES
+	select DRIVERS_OPTION_CFR_ENABLED if PAYLOAD_EDK2 && SMMSTORE
 	select INTEL_GMA_HAVE_VBT
 	select MAINBOARD_HAS_LIBGFXINIT
 	select SKYLAKE_SOC_PCH_H
@@ -29,16 +30,12 @@ config DIMM_SPD_SIZE
 	int
 	default 256
 
-config ONBOARD_BEEP
-	bool
+config BEEP_ON_BOOT
+	bool "Beep on successful boot"
 	default y
-
-config POST_IO
-	bool
-	default y
-
-config MAINBOARD_POWER_LIMITS_OVERRIDE
-	bool
-	default y
-
+	help
+	  Make the platform beep using the PC speaker in final coreboot phase.
+	  May serve as a useful indicator in headless mode that platform is
+	  properly booting.
+	  
 endif # BOARD_SOPHOS_SG230_REV2

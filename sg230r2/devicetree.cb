@@ -2,30 +2,25 @@ chip soc/intel/skylake
 	register "eist_enable" = "true"
 	
 	# FSP Configuration
-	register "PrimaryDisplay" = "Display_PEG"
+	register "SkipExtGfxScan" = "1"
 	
 	# Voltage Regulator Mailbox (stabilité Skylake)
 	register "SendVrMbxCmd" = "2"
 	
 	
 	device domain 0 on
-		device ref system_agent	on
-			subsystemid 0x1849 0x191f
-		end
-		device ref peg0		on
-			subsystemid 0x1849 0x1901
-			register "Peg0MaxLinkWidth" = "Peg0_x16"
+		device ref system_agent	on end
+		device ref peg0 on
+			register "Peg0MaxLinkWidth" = "Peg0_x8"
 
 			# Configure PCIe clockgen in PCH
 			register "PcieRpClkReqSupport[0]"	= "true"
 			register "PcieRpClkReqNumber[0]"	= "0"
 			register "PcieRpClkSrcNumber[0]"	= "0"
 		end
-		device ref igpu		on
-			subsystemid 0x1849 0x1912
-		end
-		device ref sa_thermal	on	end
-		device ref south_xhci	on
+		device ref igpu on end
+		device ref sa_thermal on end
+		device ref south_xhci on
 			register "usb2_ports" = "{
 				[0]  = USB2_PORT_MID(OC1),
 				[1]  = USB2_PORT_MID(OC2),
@@ -80,20 +75,13 @@ chip soc/intel/skylake
 				end
 			end
 		end
-		device ref thermal	on
-			subsystemid 0x1849 0xa131
-		end
-		device ref heci1	on
-			subsystemid 0x1849 0xa131
-		end
-		device ref sata		on
-			subsystemid 0x1849 0xa102
+		device ref thermal on end
+		
+		# HECI/CSME et dépendances
+		device ref heci1 off end
+		
+		device ref sata on
 			register "SataSalpSupport" = "1"
-			# SATA4 and SATA5 are located in the lower right corner of the board,
-			# but they are not populated. This is because the same PCB is used to
-			# make boards with better PCHs, which can have up to six SATA ports.
-			# However, the H110 PCH only has four SATA ports, which explains why
-			# two connectors are missing.
 			register "SataPortsEnable" = "{
 				[0] = 1,
 				[1] = 0,
@@ -110,11 +98,9 @@ chip soc/intel/skylake
 		device ref pcie_rp10 on end
 		
 		device ref lpc_espi	on
-			subsystemid 0x1849 0x1a43
-			
 			# Set @0xa30-0xa3f and @0xa40-0xa4f I/O Range for SuperIO HWM
 			register "gen1_dec" = "0x000c0a31"  # 0xa30-0xa3f (16 bytes)
-			register "gen2_dec" = "0x000c0a41"  # 0xa40-0xa4f (SB-TSI)
+			#register "gen2_dec" = "0x000c0a41"  # 0xa40-0xa4f (SB-TSI)
 			
 			register "serirq_mode" = "SERIRQ_CONTINUOUS"
 
@@ -130,7 +116,7 @@ chip soc/intel/skylake
 				end
 				device pnp 2e.5   on
 					io  0x60 = 0x0060
-					io  0x62 = 0x0064
+					#io  0x62 = 0x0064
 					irq 0x70 = 1
 					irq 0x72 = 0c
 				end
@@ -153,9 +139,9 @@ chip soc/intel/skylake
 				device pnp 2e.16  on  end
 			end
 		end
-		device ref pmc		on  end
-		device ref hda		off  end
-		device ref smbus	on  end
-		device ref gbe		on  end
+		device ref pmc on end
+		device ref hda off end
+		device ref smbus on end
+		device ref gbe off end
 	end
 end

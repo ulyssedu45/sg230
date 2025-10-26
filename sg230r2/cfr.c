@@ -8,6 +8,7 @@
 static struct sm_obj_form system = {
 	.ui_name = "System",
 	.obj_list = (const struct sm_object *[]) {
+		&igd_enabled,
 		&igd_dvmt,
 		&igd_aperture,
 		&hyper_threading,

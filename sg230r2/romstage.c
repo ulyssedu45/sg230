@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <soc/romstage.h>
+#include <soc/pm.h>
 #include <stdint.h>
 #include <string.h>
 #include <spd_bin.h>
@@ -10,11 +11,30 @@
 #include <fsp/api.h>
 #include <delay.h>
 #include <device/pnp_ops.h>
-
-
+#include <option.h>
 void mainboard_memory_init_params(FSPM_UPD *mupd)
 {
 	
+	printk(BIOS_INFO, "SG230R2: Vérification de la RTC...\n");
+	if(rtc_failure()){
+		printk(BIOS_ERR, "rtc_failure!\n");
+		set_uint_option("igd_enabled", !CONFIG(SOC_INTEL_DISABLE_IGD));
+
+		printk(BIOS_EMERG, "Exécution d'un cold reset...\n");
+    
+		/* Méthode 1: Reset via le port 0xCF9 (PCH reset control) */
+		outb(0x0E, 0xCF9);  /* Full reset + CPU reset */
+		
+		/* Si ça ne marche pas, essayer le reset classique */
+		outb(0x06, 0xCF9);
+		
+		/* Attendre indéfiniment (le système devrait redémarrer) */
+		for (;;) {
+			asm volatile ("hlt");
+		}
+	}
+	
+
 	const uint16_t rcomp_resistors[3] = { 121, 75, 100 };
 	const uint16_t rcomp_targets[5] = { 50, 26, 20, 20, 26 };
 

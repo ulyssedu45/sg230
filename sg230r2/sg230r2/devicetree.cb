@@ -1,0 +1,187 @@
+chip soc/intel/skylake
+	register "eist_enable" = "true"  # SpeedStep OK (économie énergie idle)
+
+	register "s0ix_enable" = "false"  # Pas de Modern Standby sur firewall
+
+	register "gpe0_dw0" = "GPP_B"
+	register "gpe0_dw1" = "GPP_D"
+	register "gpe0_dw2" = "GPP_E"
+
+	#Firewall appliance : pas besoin de DPTF complexe Le NCT6779D + thermal zones ACPI de base suffisent 
+	register "dptf_enable" = "false"
+
+	# Marge de sécurité thermique : throttle 5°C avant Tj Max
+	register "tcc_offset" = "5"
+
+	# FSP Configuration 
+	register "SendVrMbxCmd" = "1"
+	
+	device domain 0 on
+		device ref system_agent	on end
+		device ref peg0 on
+			register "Peg0MaxLinkWidth" = "Peg0_x8"
+
+			# Configure PCIe clockgen in PCH
+			register "PcieRpClkReqSupport[0]"	= "true"
+			register "PcieRpClkReqNumber[0]"	= "0"
+			register "PcieRpClkSrcNumber[0]"	= "0"
+		end
+		device ref igpu on end
+		device ref sa_thermal on end
+		device ref south_xhci on
+			register "usb2_ports" = "{
+				[0]  = USB2_PORT_MID(OC1),
+				[1]  = USB2_PORT_MID(OC2),
+				[2]  = USB2_PORT_MID(OC3),
+			}"
+			register "usb3_ports" = "{
+				[0] = USB3_PORT_DEFAULT(OC1),
+				[1] = USB3_PORT_DEFAULT(OC2),
+				[2] = USB3_PORT_DEFAULT(OC3),
+			}"
+
+			chip drivers/usb/acpi
+				register "desc" = ""xHCI Root Hub""
+				register "type" = "UPC_TYPE_HUB"
+				device usb 0.0 on
+					chip drivers/usb/acpi
+						register "desc"  = ""USB30A""
+						register "type"  = "UPC_TYPE_USB3_A"
+						register "group" = "ACPI_PLD_GROUP(1, 1)"
+						device usb 2.0	on end
+					end
+					chip drivers/usb/acpi
+						register "desc"  = ""USB30B""
+						register "type"  = "UPC_TYPE_USB3_A"
+						register "group" = "ACPI_PLD_GROUP(1, 2)"
+						device usb 2.1	on end
+					end
+					chip drivers/usb/acpi
+						register "desc"  = ""F_USB30_1A""
+						register "type"  = "UPC_TYPE_USB3_A"
+						register "group" = "ACPI_PLD_GROUP(2, 1)"
+						device usb 2.2	on end
+					end
+					chip drivers/usb/acpi
+						register "desc"  = ""USB30A""
+						register "type"  = "UPC_TYPE_USB3_A"
+						register "group" = "ACPI_PLD_GROUP(1, 1)"
+						device usb 3.0	on end
+					end
+					chip drivers/usb/acpi
+						register "desc"  = ""USB30B""
+						register "type"  = "UPC_TYPE_USB3_A"
+						register "group" = "ACPI_PLD_GROUP(1, 2)"
+						device usb 3.1	on end
+					end
+					chip drivers/usb/acpi
+						register "desc"  = ""F_USB30_1A""
+						register "type"  = "UPC_TYPE_USB3_A"
+						register "group" = "ACPI_PLD_GROUP(2, 1)"
+						device usb 3.2	on end
+					end
+				end
+			end
+		end
+		device ref thermal on end
+		
+		# HECI/CSME et dépendances
+		device ref heci1 off end
+		
+		device ref sata on
+			register "SataSalpSupport" = "1"
+			register "SataPortsEnable" = "{
+				[0] = 1,
+				[1] = 0,
+				[2] = 0,
+				[3] = 0,
+			}"
+		end
+		
+		device ref pcie_rp5 on end
+		device ref pcie_rp6 on end
+		device ref pcie_rp7 on end
+		device ref pcie_rp8 on end
+		device ref pcie_rp9 on end
+		device ref pcie_rp10 on end
+		
+		device ref lpc_espi	on
+			# Set @0xa30-0xa3f and @0xa40-0xa4f I/O Range for SuperIO HWM
+			register "gen1_dec" = "0x000c0a31"  # 0xa30-0xa3f (16 bytes)
+			#register "gen2_dec" = "0x000c0a41"  # 0xa40-0xa4f (SB-TSI)
+			
+			register "serirq_mode" = "SERIRQ_CONTINUOUS"
+
+			chip superio/nuvoton/nct6779d
+				device pnp 2e.1   off end
+				device pnp 2e.2   on
+					io  0x60 = 0x3f8
+					irq 0x70 = 4
+				end
+				device pnp 2e.3   on
+					io  0x60 = 0x02f8
+					irq 0x70 = 3
+				end
+				device pnp 2e.5   on
+					io  0x60 = 0x0060
+					io  0x62 = 0x0064
+					irq 0x70 = 1
+					irq 0x72 = 12
+				end
+				device pnp 2e.6   off end
+				device pnp 2e.7   off end
+				device pnp 2e.8   off
+					# io 0x60 = 0x0a00
+					# irq 0xe0 = 0x1c
+					# irq 0xe1 = 0x0c
+					# irq 0xe3 = 0xdc
+				end
+				device pnp 2e.9   off  end
+				device pnp 2e.a   on  end
+				device pnp 2e.b   on
+					io 0x60 = 0x0a30
+					io 0x62 = 0x0a40
+					irq 0x70 = 0
+					irq 0xe0 = 0x7f
+					irq 0xe1 = 0x7f
+					irq 0xe2 = 0x7f
+					irq 0xe4 = 0x7f
+					irq 0xf7 = 0x87
+					irq 0xf8 = 0x47
+				end
+				device pnp 2e.d   off end
+				device pnp 2e.e   off end
+				device pnp 2e.f   on
+					irq 0xe0 = 0xff
+					irq 0xe1 = 0xef
+					irq 0xe2 = 0x0f
+					irq 0xe3 = 0xfc
+					irq 0xe4 = 0xff
+					irq 0xe5 = 0xff
+					irq 0xe6 = 0x79
+					irq 0xe7 = 0xff
+					irq 0xf0 = 0x9d
+				end
+				device pnp 2e.14  on
+					irq 0xe0 = 0x80
+					irq 0xe3 = 0x10
+				end
+				device pnp 2e.16  on
+					irq 0xe0 = 0x20
+					irq 0xe1 = 0x04
+					irq 0xe2 = 0x05
+				end
+				device pnp 2e.308 off end
+				device pnp 2e.408 off end
+				device pnp 2e.508 off end
+				device pnp 2e.608 off end
+				device pnp 2e.708 off end
+				device pnp 2e.808 off end
+			end
+		end
+		device ref pmc on end
+		device ref hda off end
+		device ref smbus on end
+		device ref gbe off end
+	end
+end

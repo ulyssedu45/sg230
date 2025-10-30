@@ -6,7 +6,7 @@
 
 ## Version Française
 
-Port coreboot pour le Sophos SG230 Rev 2, un appareil de sécurité réseau basé sur Intel Kaby Lake.
+Port coreboot pour le Sophos SG230 Rev 2, un appareil de sécurité réseau basé sur Intel Skylake.
 
 ## ⚠️ Avertissements Importants
 
@@ -25,7 +25,7 @@ Une fois coreboot installé, les mises à jour futures peuvent être effectuées
 - **Modèle** : Sophos SG230 Rev 2
 - **Année de sortie** : 2017
 - **Catégorie** : Desktop
-- **SOC** : Intel Kaby Lake (Skylake PCH-H)
+- **SOC** : Intel Skylake (Skylake PCH-H)
 - **Puce ROM** : SOIC-8
 - **Protocole ROM** : SPI
 - **Taille ROM** : 16 MB (16384 KB)
@@ -144,7 +144,7 @@ Ce firmware est fourni "tel quel" sans garantie d'aucune sorte. L'utilisation de
 
 ## English Version
 
-Coreboot port for the Sophos SG230 Rev 2, a network security appliance based on Intel Kaby Lake.
+Coreboot port for the Sophos SG230 Rev 2, a network security appliance based on Intel Skylake.
 
 ## ⚠️ Important Warnings
 
@@ -163,7 +163,7 @@ Once coreboot is installed, future updates can be performed via flashrom from th
 - **Model**: Sophos SG230 Rev 2
 - **Release Year**: 2017
 - **Category**: Desktop
-- **SOC**: Intel Kaby Lake (Skylake PCH-H)
+- **SOC**: Intel Skylake (Skylake PCH-H)
 - **ROM Chip**: SOIC-8
 - **ROM Protocol**: SPI
 - **ROM Size**: 16 MB (16384 KB)

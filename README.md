@@ -133,8 +133,7 @@ Les contributions sont les bienvenues ! N'hésitez pas à ouvrir des issues ou d
 ## 📚 Ressources
 
 - [Documentation Coreboot](https://doc.coreboot.org/)
-- [Wiki Coreboot](https://www.coreboot.org/wiki)
-- [Guide des programmateurs externes](https://www.flashrom.org/Flashrom)
+- [Guide des programmateurs externes](https://www.flashrom.org/)
 
 ## ⚠️ Disclaimer
 
@@ -271,8 +270,7 @@ Contributions are welcome! Feel free to open issues or pull requests.
 ## 📚 Resources
 
 - [Coreboot Documentation](https://doc.coreboot.org/)
-- [Coreboot Wiki](https://www.coreboot.org/wiki)
-- [External Programmers Guide](https://www.flashrom.org/Flashrom)
+- [External Programmers Guide](https://www.flashrom.org/)
 
 ## ⚠️ Disclaimer
 

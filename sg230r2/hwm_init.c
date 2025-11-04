@@ -6,32 +6,64 @@
 
 #include "hwm_init.h"
 
+/* NCT6779D Hardware Monitoring base address and register offsets */
 #define HWM_BASE  0x0A30
 #define HWM_INDEX (HWM_BASE + 0x05)
 #define HWM_DATA  (HWM_BASE + 0x06)
 
+/*
+ * hwm_select_bank - Select hardware monitoring register bank
+ * @bank: Bank number to select (0x00-0x09)
+ *
+ * The NCT6779D hardware monitoring registers are organized into multiple
+ * banks. This function selects the active bank for subsequent read/write
+ * operations.
+ */
 static inline void hwm_select_bank(u8 bank)
 {
 	outb(0x4E, HWM_INDEX);
 	outb(bank, HWM_DATA);
 }
 
+/*
+ * hwm_read - Read from hardware monitoring register
+ * @idx: Register index to read from
+ *
+ * Returns the value of the specified hardware monitoring register in the
+ * currently selected bank.
+ */
 static inline u8 hwm_read(u8 idx)
 {
 	outb(idx, HWM_INDEX);
 	return inb(HWM_DATA);
 }
 
+/*
+ * hwm_write - Write to hardware monitoring register
+ * @idx: Register index to write to
+ * @val: Value to write
+ *
+ * Writes a value to the specified hardware monitoring register in the
+ * currently selected bank.
+ */
 static inline void hwm_write(u8 idx, u8 val)
 {
 	outb(idx, HWM_INDEX);
 	outb(val, HWM_DATA);
 }
 
+/*
+ * nct6779d_hwm_init - Initialize NCT6779D hardware monitoring
+ *
+ * This function initializes the NCT6779D SuperIO hardware monitoring
+ * functionality based on OEM register dump values. It configures all
+ * register banks (0x00-0x09) with settings for fan control, temperature
+ * monitoring, voltage sensors, and other hardware monitoring features
+ * specific to the Sophos SG230 R2 mainboard.
+ */
 void nct6779d_hwm_init(void)
 {
-	printk(BIOS_INFO, "NCT6779D: HWM init from OEM dump\n");
-
+	/* Bank 0x00: Main configuration and sensor readings */
 	hwm_select_bank(0x00);
 	hwm_write(0x00, 0x04);
 	hwm_write(0x01, 0x5A);
@@ -289,6 +321,8 @@ void nct6779d_hwm_init(void)
 	hwm_write(0xFD, 0xFF);
 	hwm_write(0xFE, 0xFF);
 	hwm_write(0xFF, 0xFF);
+
+	/* Bank 0x01: Extended sensor configuration */
 	hwm_select_bank(0x01);
 	hwm_write(0x00, 0x90);
 	hwm_write(0x01, 0x32);
@@ -546,6 +580,8 @@ void nct6779d_hwm_init(void)
 	hwm_write(0xFD, 0xFF);
 	hwm_write(0xFE, 0xFF);
 	hwm_write(0xFF, 0xFF);
+
+	/* Bank 0x02: Temperature sensor settings */
 	hwm_select_bank(0x02);
 	hwm_write(0x00, 0x81);
 	hwm_write(0x01, 0x32);
@@ -803,6 +839,8 @@ void nct6779d_hwm_init(void)
 	hwm_write(0xFD, 0xFF);
 	hwm_write(0xFE, 0xFF);
 	hwm_write(0xFF, 0xFF);
+
+	/* Bank 0x03: Fan control configuration */
 	hwm_select_bank(0x03);
 	hwm_write(0x00, 0x81);
 	hwm_write(0x01, 0x00);
@@ -1060,6 +1098,8 @@ void nct6779d_hwm_init(void)
 	hwm_write(0xFD, 0xFF);
 	hwm_write(0xFE, 0xFF);
 	hwm_write(0xFF, 0xFF);
+
+	/* Bank 0x04: Voltage monitoring settings */
 	hwm_select_bank(0x04);
 	hwm_write(0x00, 0x00);
 	hwm_write(0x01, 0x00);
@@ -1317,6 +1357,8 @@ void nct6779d_hwm_init(void)
 	hwm_write(0xFD, 0xFF);
 	hwm_write(0xFE, 0xFF);
 	hwm_write(0xFF, 0xFF);
+
+	/* Bank 0x05: Critical temperature thresholds */
 	hwm_select_bank(0x05);
 	hwm_write(0x00, 0xFF);
 	hwm_write(0x01, 0xFF);
@@ -1574,6 +1616,8 @@ void nct6779d_hwm_init(void)
 	hwm_write(0xFD, 0xFF);
 	hwm_write(0xFE, 0xFF);
 	hwm_write(0xFF, 0xFF);
+
+	/* Bank 0x06: PWM and SmartFan configuration */
 	hwm_select_bank(0x06);
 	hwm_write(0x00, 0x00);
 	hwm_write(0x01, 0x00);
@@ -1831,6 +1875,8 @@ void nct6779d_hwm_init(void)
 	hwm_write(0xFD, 0xFF);
 	hwm_write(0xFE, 0xFF);
 	hwm_write(0xFF, 0xFF);
+
+	/* Bank 0x07: Additional fan and sensor settings */
 	hwm_select_bank(0x07);
 	hwm_write(0x00, 0xFF);
 	hwm_write(0x01, 0x95);
@@ -2088,6 +2134,8 @@ void nct6779d_hwm_init(void)
 	hwm_write(0xFD, 0xFF);
 	hwm_write(0xFE, 0xFF);
 	hwm_write(0xFF, 0xFF);
+
+	/* Bank 0x08: PECI and digital temperature sensor settings */
 	hwm_select_bank(0x08);
 	hwm_write(0x00, 0x81);
 	hwm_write(0x01, 0x00);
@@ -2345,6 +2393,8 @@ void nct6779d_hwm_init(void)
 	hwm_write(0xFD, 0xFF);
 	hwm_write(0xFE, 0xFF);
 	hwm_write(0xFF, 0xFF);
+
+	/* Bank 0x09: Reserved and extended registers */
 	hwm_select_bank(0x09);
 	hwm_write(0x00, 0x01);
 	hwm_write(0x01, 0x00);
@@ -2603,6 +2653,6 @@ void nct6779d_hwm_init(void)
 	hwm_write(0xFE, 0xFF);
 	hwm_write(0xFF, 0xFF);
 
+	/* Return to bank 0x00 for default operation */
 	hwm_select_bank(0x00);
-	printk(BIOS_INFO, "NCT6779D: HWM configuration complete (100%% OEM match)\n");
 }

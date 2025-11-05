@@ -130,8 +130,8 @@ chip soc/intel/skylake
 					drq 0xf0 = 0x83
 				end
 				device pnp 2e.6   off end
-				device pnp 2e.7   on 		# GPIOs 6-8
-					drq 0xe0 = 0x76
+				device pnp 2e.7   off 		# GPIOs 6-8
+					drq 0xe0 = 0x73
 					drq 0xe1 = 0x04
 					drq 0xe5 = 0xff
 					drq 0xe6 = 0xff
@@ -139,32 +139,39 @@ chip soc/intel/skylake
 					drq 0xf4 = 0x00
 					drq 0xf5 = 0xff
 				end
-				device pnp 2e.8   on 		# WDT1 GPIO 0-1
+				device pnp 2e.8   off 		# WDT1 GPIO 0-1
+					drq 0xf5 = 0xff
+					drq 0xf7 = 0xff
+				end
+				device pnp 2e.108 on 		# GPIO0
 					io 0x60 = 0xa00
 					drq 0xe0 = 0x1c
 					drq 0xe1 = 0x0c
 					drq 0xf1 = 0xff
 					drq 0xf2 = 0xff
 					drq 0xf4 = 0xff
-					drq 0xf5 = 0xff
-					drq 0xf7 = 0xff
 				end
-				device pnp 2e.108 on end	# GPIO0
-				device pnp 2e.109 on end	# GPIO1
-				device pnp 2e.509 on end 	# GPIO5 all in
-				device pnp 2e.9   on
-					drq 0x30 = 0xdc
+				device pnp 2e.9 off end		# GPIO8
+				device pnp 2e.109 off end	# GPIO1
+				device pnp 2e.209 on		# GPIO2
 					drq 0xe0 = 0xcf
 					drq 0xe1 = 0xe0
+				end
+				device pnp 2e.309 on		# GPIO3
 					drq 0xe4 = 0x0f
 					drq 0xe5 = 0x06
-					drq 0xeb = 0xff
-					drq 0xee = 0x10
+				end
+				device pnp 2e.409 on 		# GPIO4
 					drq 0xf0 = 0xe7
 					drq 0xf1 = 0x7a
+				end
+				device pnp 2e.509 off 		# GPIO5
+					drq 0xeb = 0xff
 					drq 0xf5 = 0xff
 					drq 0xf6 = 0xff
 				end
+				device pnp 2e.609 on end	# GPIO6
+				device pnp 2e.709 on end	# GPIO7
 				device pnp 2e.a   on  		# ACPI
 					drq 0xe4 = 0x28
 					drq 0xe6 = 0x5c

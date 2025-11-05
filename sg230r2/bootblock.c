@@ -9,10 +9,11 @@
 
 #include "gpio.h"
 #include "hwm_init.h"
-#include "ezio_lcd.h"
+#include "drivers/hd44780.h"
 
 #define GLOBAL_DEV PNP_DEV(0x2E, 0)
 #define SERIAL_DEV PNP_DEV(0x2E, NCT6779D_SP1)
+#define SERIAL2_DEV PNP_DEV(0x2E, NCT6779D_SP2)
 #define ACPI_DEV   PNP_DEV(0x2E, NCT6779D_ACPI)
 #define HWM_DEV    PNP_DEV(0x2E, NCT6779D_HWM_FPLED)
 #define GPIO_DEV   PNP_DEV(0x2E, NCT6779D_GPIO_PP_OD)
@@ -124,6 +125,13 @@ static void early_config_superio(void)
 	
 	/* Configure UART1 for coreboot debug console */
 	nuvoton_enable_serial(SERIAL_DEV, CONFIG_TTYS0_BASE);
+
+    /* Configure UART2 */
+	pnp_set_logical_device(SERIAL2_DEV);
+	pnp_set_enable(SERIAL2_DEV, 0);
+	pnp_set_iobase(SERIAL2_DEV, PNP_IDX_IO0, 0x2f8);
+	pnp_set_irq(SERIAL2_DEV, PNP_IDX_IRQ0, 3);
+	pnp_set_enable(SERIAL2_DEV, 1);
 }
 
 /*
@@ -153,9 +161,8 @@ void bootblock_mainboard_init(void)
 
 
 	/* Give hardware time to stabilize */
-	/*mdelay(50);
-	ezio_init();
-	ezio_show_message("coreboot", "Sophos SG230");*/
+	mdelay(2000);
+	hd44780_init(1, 2400);
 }
 
 /*

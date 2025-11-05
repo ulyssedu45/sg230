@@ -14,6 +14,8 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "drivers/hd44780.h"
+
 void mainboard_memory_init_params(FSPM_UPD *mupd)
 {
 	const uint16_t rcomp_resistors[3] = {121, 75, 100};
@@ -37,7 +39,7 @@ void mainboard_memory_init_params(FSPM_UPD *mupd)
 		printk(BIOS_INFO, "Performing full system reset\n");
 		full_reset();
 	}
-
+	
 	printk(BIOS_INFO, "SG230R2: Configuring memory parameters\n");
 
 	assert(sizeof(mem_cfg->RcompResistor) == sizeof(rcomp_resistors));

@@ -1,4 +1,4 @@
-# Coreboot pour Sophos SG230 Rev 2 / Coreboot for Sophos SG230 Rev 2
+# Coreboot pour Sophos SG210/XG210 Rev 3 & SG230/XG230 Rev 2 / Coreboot for Sophos SG210/XG210 Rev 3 & SG230/XG230 Rev 2
 
 [🇫🇷 Version Française](#version-française) | [🇬🇧 English Version](#english-version)
 
@@ -6,7 +6,7 @@
 
 ## Version Française
 
-Port coreboot pour le Sophos SG230 Rev 2, un appareil de sécurité réseau basé sur Intel Skylake.
+Port coreboot pour le Sophos SG210/XG210 Rev 3 & SG230/XG230 Rev 2, un appareil de sécurité réseau basé sur Intel Skylake.
 
 ## ⚠️ Avertissements Importants
 
@@ -22,7 +22,7 @@ Une fois coreboot installé, les mises à jour futures peuvent être effectuées
 
 ## 📋 Spécifications
 
-- **Modèle** : Sophos SG230 Rev 2
+- **Modèle** : Sophos SG210/XG210 Rev 3 & SG230/XG230 Rev 2
 - **Année de sortie** : 2017
 - **Catégorie** : Desktop
 - **SOC** : Intel Skylake (Skylake PCH-H)
@@ -46,11 +46,11 @@ Une fois coreboot installé, les mises à jour futures peuvent être effectuées
 
 ### Configuration et Compilation
 
-Pour configurer et compiler coreboot pour le SG230 Rev 2, veuillez suivre les instructions officielles de compilation disponibles sur le site de coreboot :
+Pour configurer et compiler coreboot pour le SG210/XG210 Rev 3 & SG230/XG230 Rev 2, veuillez suivre les instructions officielles de compilation disponibles sur le site de coreboot :
 
 👉 **[Guide officiel de compilation coreboot](https://doc.coreboot.org/tutorial/part1.html)**
 
-**Étapes spécifiques pour le SG230 Rev 2 :**
+**Étapes spécifiques pour le SG210/XG210 Rev 3 & SG230/XG230 Rev 2 :**
 
 1. Cloner le dépôt coreboot et préparer l'environnement (voir guide officiel)
 
@@ -63,7 +63,7 @@ cp -r chemin/vers/sg230r2 src/mainboard/sophos/
 3. Lors de la configuration (`make menuconfig`), sélectionner :
 
    - **Mainboard vendor** : `Sophos`
-   - **Mainboard model** : `SG230 Rev 2`
+   - **Mainboard model** : `SG210/XG210 Rev 3 & SG230/XG230 Rev 2`
    - Configurer le payload selon vos besoins
 
 4. Compiler selon les instructions du guide officiel
@@ -143,7 +143,7 @@ Ce firmware est fourni "tel quel" sans garantie d'aucune sorte. L'utilisation de
 
 ## English Version
 
-Coreboot port for the Sophos SG230 Rev 2, a network security appliance based on Intel Skylake.
+Coreboot port for the Sophos SG210/XG210 Rev 3 & SG230/XG230 Rev 2, a network security appliance based on Intel Skylake.
 
 ## ⚠️ Important Warnings
 
@@ -159,7 +159,7 @@ Once coreboot is installed, future updates can be performed via flashrom from th
 
 ## 📋 Specifications
 
-- **Model**: Sophos SG230 Rev 2
+- **Model**: Sophos SG210/XG210 Rev 3 & SG230/XG230 Rev 2
 - **Release Year**: 2017
 - **Category**: Desktop
 - **SOC**: Intel Skylake (Skylake PCH-H)
@@ -183,11 +183,11 @@ Once coreboot is installed, future updates can be performed via flashrom from th
 
 ### Configuration and Compilation
 
-To configure and compile coreboot for the SG230 Rev 2, please follow the official compilation instructions available on the coreboot website:
+To configure and compile coreboot for the SG210/XG210 Rev 3 & SG230/XG230 Rev 2, please follow the official compilation instructions available on the coreboot website:
 
 👉 **[Official coreboot build guide](https://doc.coreboot.org/tutorial/part1.html)**
 
-**Specific steps for the SG230 Rev 2:**
+**Specific steps for the SG210/XG210 Rev 3 & SG230/XG230 Rev 2:**
 
 1. Clone the coreboot repository and prepare the environment (see official guide)
 
@@ -200,7 +200,7 @@ cp -r path/to/sg230r2 src/mainboard/sophos/
 3. During configuration (`make menuconfig`), select:
 
    - **Mainboard vendor**: `Sophos`
-   - **Mainboard model**: `SG230 Rev 2`
+   - **Mainboard model**: `SG210/XG210 Rev 3 & SG230/XG230 Rev 2`
    - Configure the payload according to your needs
 
 4. Compile according to the official guide instructions

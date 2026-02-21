@@ -8,7 +8,7 @@
  *
  * This function initializes the hardware monitoring functionality of the
  * Nuvoton NCT6779D SuperIO chip, including fan control, temperature sensors,
- * and voltage monitoring for the Sophos SG230 R2 mainboard.
+ * and voltage monitoring for the Sophos SG210 R3 / SG230 R2 mainboard.
  */
 void nct6779d_hwm_init(void);
 

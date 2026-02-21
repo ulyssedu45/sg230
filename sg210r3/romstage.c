@@ -32,7 +32,7 @@ void mainboard_memory_init_params(FSPM_UPD *mupd)
 	 * configuration option to its default value and perform a full reset
 	 * to ensure proper system initialization.
 	 */
-	printk(BIOS_INFO, "SG230R2: Checking RTC status\n");
+	printk(BIOS_INFO, "Checking RTC status\n");
 	if (rtc_failure()) {
 		printk(BIOS_INFO, "RTC failure detected, restoring defaults\n");
 		set_uint_option("igd_enabled", !CONFIG(SOC_INTEL_DISABLE_IGD));
@@ -40,7 +40,7 @@ void mainboard_memory_init_params(FSPM_UPD *mupd)
 		full_reset();
 	}
 	
-	printk(BIOS_INFO, "SG230R2: Configuring memory parameters\n");
+	printk(BIOS_INFO, "Configuring memory parameters\n");
 
 	assert(sizeof(mem_cfg->RcompResistor) == sizeof(rcomp_resistors));
 	assert(sizeof(mem_cfg->RcompTarget) == sizeof(rcomp_targets));

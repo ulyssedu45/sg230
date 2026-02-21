@@ -14,7 +14,7 @@
  *
  * This function is called before FSP SiliconInit() to configure mainboard-
  * specific parameters. It initializes GPIO pads and sets display controller
- * clock configuration for the Sophos SG230 R2 mainboard.
+ * clock configuration for the Sophos SG210 R3 / SG230 R2 mainboard.
  */
 void mainboard_silicon_init_params(FSP_SIL_UPD *params)
 {

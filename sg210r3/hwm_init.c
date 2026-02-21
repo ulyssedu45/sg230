@@ -59,7 +59,7 @@ static inline void hwm_write(u8 idx, u8 val)
  * functionality based on OEM register dump values. It configures all
  * register banks (0x00-0x09) with settings for fan control, temperature
  * monitoring, voltage sensors, and other hardware monitoring features
- * specific to the Sophos SG230 R2 mainboard.
+ * specific to the Sophos SG210 R3 / SG230 R2 mainboard.
  */
 void nct6779d_hwm_init(void)
 {

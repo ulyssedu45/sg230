@@ -39,7 +39,7 @@ static struct sm_obj_form *sm_root[] = {
  * @cfr_root: Pointer to coreboot CFR (Configuration Runtime) structure
  *
  * This function initializes the mainboard-specific configuration menu for
- * the Sophos SG230 R2. It populates the CFR structure with the setup menu
+ * the Sophos SG210 R3 / SG230 R2. It populates the CFR structure with the setup menu
  * hierarchy containing system and power management options.
  */
 void mb_cfr_setup_menu(struct lb_cfr *cfr_root)

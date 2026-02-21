@@ -21,7 +21,7 @@
  * early_config_superio - Configure SuperIO NCT6779D chip
  *
  * This function performs early initialization of the Nuvoton NCT6779D SuperIO
- * chip for the Sophos SG230 R2 mainboard. It configures all logical devices
+ * chip for the Sophos SG210 R3 / SG230 R2 mainboard. It configures all logical devices
  * including GPIO, ACPI, hardware monitoring, and serial ports based on OEM
  * register dump values.
  */

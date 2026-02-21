@@ -1,6 +1,6 @@
 Category: desktop
 Board URL: https://sophos.com/
-Board model: SG230 Rev 2
+Board model: SG210 Rev 3
 ROM package: SOIC-8
 ROM protocol: SPI
 ROM socketed: n

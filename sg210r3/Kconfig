@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 
-if BOARD_SOPHOS_SG230_REV2
+if BOARD_SOPHOS_SG210_REV3 || BOARD_SOPHOS_SG230_REV2 || BOARD_SOPHOS_XG210_REV3 || BOARD_SOPHOS_XG230_REV2
 
 config BOARD_SPECIFIC_OPTIONS
 	def_bool y
@@ -18,10 +18,13 @@ config BOARD_SPECIFIC_OPTIONS
 	select SOC_INTEL_COMMON_BLOCK_LPC_COMB_ENABLE
 
 config MAINBOARD_DIR
-	default "sophos/sg230r2"
+	default "sophos/sg210r3"
 
 config MAINBOARD_PART_NUMBER
-	default "SG230 Rev 2"
+	default "SG210 Rev 3" if BOARD_SOPHOS_SG210_REV3
+	default "SG230 Rev 2" if BOARD_SOPHOS_SG230_REV2
+	default "XG210 Rev 3" if BOARD_SOPHOS_XG210_REV3
+	default "XG230 Rev 2" if BOARD_SOPHOS_XG230_REV2
 
 config DIMM_MAX
 	int
@@ -29,7 +32,7 @@ config DIMM_MAX
 
 config DIMM_SPD_SIZE
 	int
-	default 256
+	default 512
 
 config BEEP_ON_BOOT
 	bool "Beep on successful boot"
@@ -46,4 +49,4 @@ config BOARD_HAS_EZIO_LCD
 	  Enable support for Portwell EZIO-100/300 LCD module
 	  connected via UART1.
 
-endif # BOARD_SOPHOS_SG230_REV2
+endif # BOARD_SOPHOS_SG210_SG230_REV2

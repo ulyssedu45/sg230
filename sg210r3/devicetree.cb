@@ -19,12 +19,7 @@ chip soc/intel/skylake
 	device domain 0 on
 		device ref system_agent	on end
 		device ref peg0 on
-			register "Peg0MaxLinkWidth" = "Peg0_x8"
-
-			# Configure PCIe clockgen in PCH
-			register "PcieRpClkReqSupport[0]"	= "true"
-			register "PcieRpClkReqNumber[0]"	= "0"
-			register "PcieRpClkSrcNumber[0]"	= "0"
+			smbios_slot_desc "SlotTypePciExpressGen3X16" "SlotLengthShort" "CPU SLOT PCI-E 3.0 X8(IN X16)" "SlotDataBusWidth8X"
 		end
 		device ref igpu on end
 		device ref sa_thermal on end

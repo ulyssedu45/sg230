@@ -14,11 +14,25 @@ Port coreboot pour le Sophos SG210/XG210 Rev 3 & SG230/XG230 Rev 2, un appareil 
 
 **IMPORTANT** : Avant de flasher coreboot, vous **devez** faire une sauvegarde complète du BIOS d'origine. Cette sauvegarde est essentielle pour restaurer le système en cas de problème.
 
+> **Note** : La lecture du BIOS d'origine peut être effectuée directement depuis le système d'exploitation avec flashrom via le programmateur interne (`-p internal`). Il est fortement recommandé de réaliser **plusieurs lectures** et de comparer leurs empreintes pour s'assurer de l'intégrité de la sauvegarde :
+>
+> ```bash
+> ./flashrom -p internal -r xg230_bios_1.bin
+> ./flashrom -p internal -r xg230_bios_2.bin
+> sha256 xg230_bios_1.bin xg230_bios_2.bin
+> ```
+
 ### Programmateur Externe Requis
 
-La première installation de coreboot nécessite **obligatoirement** un programmateur externe (par exemple CH341A, Raspberry Pi, Bus Pirate, etc.) car la puce BIOS n'est pas socketed et Flashrom n'est pas supporté nativement sur ce matériel.
+La première installation de coreboot nécessite **obligatoirement** un programmateur externe (par exemple CH341A, Raspberry Pi, Bus Pirate, etc.) car la puce BIOS n'est pas socketed.
+
+Bien que flashrom soit capable de **lire** le BIOS d'origine via le programmateur interne, il **n'est pas en mesure de lever le verrouillage (lock-down)** mis en place par le BIOS OEM AMI: la configuration SPI est verrouée, le BIOS Interface Lock-Down est activé et le bit BIOS_CNTL Write Enable ne peut pas être positionné au runtime. Pour cette raison, **le programmateur interne ne peut pas écrire sur la puce BIOS d'origine**, ce qui rend l'utilisation d'un programmateur externe indispensable pour la première installation.
 
 Une fois coreboot installé, les mises à jour futures peuvent être effectuées via flashrom depuis le système d'exploitation.
+
+> [!NOTE]
+> Sur certains modèles ou certaines révisions, j'ai constaté que le flash pouvait être effectué directement avec `flashrom` via le programmateur interne.
+> Cela dépend de la configuration exacte du firmware OEM et ne doit donc pas être considéré comme garanti.
 
 ## 📋 Spécifications
 
@@ -150,11 +164,25 @@ Coreboot port for the Sophos SG210/XG210 Rev 3 & SG230/XG230 Rev 2, a network se
 
 **IMPORTANT**: Before flashing coreboot, you **must** make a complete backup of the original BIOS. This backup is essential to restore the system in case of problems.
 
+> **Note**: The original BIOS can be read directly from the operating system using flashrom via the internal programmer (`-p internal`). It is strongly recommended to take **multiple reads** and compare their hashes to ensure the backup is consistent:
+>
+> ```bash
+> ./flashrom -p internal -r xg230_bios_1.bin
+> ./flashrom -p internal -r xg230_bios_2.bin
+> sha256 xg230_bios_1.bin xg230_bios_2.bin
+> ```
+
 ### External Programmer Required
 
-The first coreboot installation **requires** an external programmer (e.g., CH341A, Raspberry Pi, Bus Pirate, etc.) because the BIOS chip is not socketed and Flashrom is not natively supported on this hardware.
+The first coreboot installation **requires** an external programmer (e.g., CH341A, Raspberry Pi, Bus Pirate, etc.) because the BIOS chip is not socketed.
+
+Although flashrom is able to **read** the original BIOS through the internal programmer, it **cannot undo the lock-down** enforced by the OEM AMI BIOS: the SPI configuration is locked, BIOS Interface Lock-Down is set, and the BIOS_CNTL Write Enable bit cannot be set at runtime. As a result, **the internal programmer cannot write to the original BIOS chip**, which is precisely why an external programmer is required for the first installation.
 
 Once coreboot is installed, future updates can be performed via flashrom from the operating system.
+
+> [!NOTE]
+> On some models or board revisions, I have observed that flashing directly with `flashrom` through the internal programmer may be possible.
+> This depends on the exact OEM firmware configuration and should therefore not be considered guaranteed.
 
 ## 📋 Specifications
 

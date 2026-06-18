@@ -30,6 +30,10 @@ Bien que flashrom soit capable de **lire** le BIOS d'origine via le programmateu
 
 Une fois coreboot installé, les mises à jour futures peuvent être effectuées via flashrom depuis le système d'exploitation.
 
+> [!NOTE]
+> Sur certains modèles ou certaines révisions, j'ai constaté que le flash pouvait être effectué directement avec `flashrom` via le programmateur interne.
+> Cela dépend de la configuration exacte du firmware OEM et ne doit donc pas être considéré comme garanti.
+
 ## 📋 Spécifications
 
 - **Modèle** : Sophos SG210/XG210 Rev 3 & SG230/XG230 Rev 2
@@ -175,6 +179,10 @@ The first coreboot installation **requires** an external programmer (e.g., CH341
 Although flashrom is able to **read** the original BIOS through the internal programmer, it **cannot undo the lock-down** enforced by the OEM AMI BIOS: the SPI configuration is locked, BIOS Interface Lock-Down is set, and the BIOS_CNTL Write Enable bit cannot be set at runtime. As a result, **the internal programmer cannot write to the original BIOS chip**, which is precisely why an external programmer is required for the first installation.
 
 Once coreboot is installed, future updates can be performed via flashrom from the operating system.
+
+> [!NOTE]
+> On some models or board revisions, I have observed that flashing directly with `flashrom` through the internal programmer may be possible.
+> This depends on the exact OEM firmware configuration and should therefore not be considered guaranteed.
 
 ## 📋 Specifications
 

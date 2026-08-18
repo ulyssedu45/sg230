@@ -8,6 +8,7 @@ romstage-y  += romstage.c
 ramstage-$(CONFIG_DRIVERS_OPTION_CFR) += cfr.c
 ramstage-y += mainboard.c
 ramstage-y += ramstage.c
+ramstage-y += uuid.c
 
 ramstage-$(CONFIG_MAINBOARD_USE_LIBGFXINIT) += gma-mainboard.ads
 

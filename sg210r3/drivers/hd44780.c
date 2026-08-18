@@ -10,7 +10,7 @@
 void hd44780_init(unsigned int idx, unsigned int baudrate)
 {
 	uintptr_t base_port = uart_platform_base(idx);
-	unsigned int divisor = uart_baudrate_divisor(baudrate, uart_platform_refclk(), uart_input_clock_divider());
+	unsigned int divisor = uart_calc_baudrate_divisor(baudrate, uart_platform_refclk(), uart_input_clock_divider());
 
 	printk(BIOS_INFO, "HD44780: UART port index %u -> base address 0x%lx, baudrate %u\n", idx, (unsigned long)base_port, baudrate);
 
